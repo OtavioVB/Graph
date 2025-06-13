@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Graph.Console.Sample": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
