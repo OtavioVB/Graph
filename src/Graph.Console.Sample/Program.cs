@@ -15,14 +15,27 @@ public sealed class Program
         graph.AddVertex('C');
         graph.AddVertex('D');
         graph.AddVertex('E');
-        graph.AddDirectedEdge('A', 'B');
-        graph.AddDirectedEdge('B', 'D');
-        graph.AddDirectedEdge('A', 'C');
-        graph.AddDirectedEdge('C', 'E');
+        graph.AddVertex('F');
+        graph.AddBidiretionalEdge('A', 'B');
+        graph.AddBidiretionalEdge('B', 'D');
+        graph.AddBidiretionalEdge('A', 'C');
+        graph.AddBidiretionalEdge('C', 'E');
+        graph.AddBidiretionalEdge('C', 'F');
+        graph.AddBidiretionalEdge('F', 'E');
 
         graph.PrintGraph();
 
         graph.PrintShortestWayBFS('A', 'E');
+
+        var eccentricity = graph.GetAllVertexEccentricity();
+
+        foreach (var unique in eccentricity)
+        {
+            Prompt.WriteLine($"{unique.Key} = {unique.Value};");
+        }
+
+        Prompt.WriteLine($"Ratio = {graph.GetRatio()}");
+        Prompt.WriteLine($"Diameter = {graph.GetDiameter()}");
 
         Prompt.WriteLine();
     }

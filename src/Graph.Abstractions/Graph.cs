@@ -12,6 +12,59 @@ public class Graph<T> : IGraph<T>
         _adjacencyList = adjacencyList ?? new Dictionary<T, IList<T>>();
     }
 
+    public int GetDiameter()
+    {
+        var eccentricities = GetAllVertexEccentricity();
+
+        return eccentricities.Values.Max();
+    }
+
+    public int GetRatio()
+    {
+        var eccentricities = GetAllVertexEccentricity();
+
+        return eccentricities.Values.Min();
+    }
+
+    public Dictionary<T, int> GetAllVertexEccentricity()
+    {
+        var eccentricity = new Dictionary<T, int>();
+
+        foreach (var vertex in _adjacencyList.Keys)
+        {
+            eccentricity.Add(vertex, GetVertexEccentricity(vertex));
+        }
+
+        return eccentricity;
+    }
+
+    public int GetVertexEccentricity(T vertex)
+    {
+        var queue = new Queue<T>();
+        var distance = new Dictionary<T, int>();
+
+        distance[vertex] = 0;
+        queue.Enqueue(vertex);
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+
+            foreach (var neighbor in _adjacencyList[current])
+            {
+                if (!distance.ContainsKey(neighbor))
+                {
+                    distance[neighbor] = distance[current] + 1;
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+
+        int eccentricity = distance.Count == 1 ? int.MaxValue : distance.Values.Max();
+
+        return eccentricity;
+    }
+
     public T[] BreadthFirstSearch(T start)
     {
         var queue = new Queue<T>();
