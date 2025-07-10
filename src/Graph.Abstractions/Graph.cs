@@ -93,6 +93,37 @@ public class Graph<T> : IGraph<T>
         return visited.ToArray();
     }
 
+    public T[] DepthFirstSearch(T start)
+    {
+        var stack = new Stack<T>();
+        var visited = new HashSet<T>();
+
+        if (!_adjacencyList.ContainsKey(start))
+            return [];
+
+        stack.Push(start);
+
+        while (stack.Count > 0)
+        {
+            var current = stack.Pop();
+
+            if (visited.Contains(current))
+                continue;
+
+            visited.Add(current);
+
+            foreach (var neighbor in _adjacencyList[current])
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    stack.Push(neighbor);
+                }
+            }
+        }
+
+        return visited.ToArray();
+    }
+
     public T[] GetShortestWayBFS(T start, T end)
     {
         var queue = new Queue<T>();
@@ -151,6 +182,16 @@ public class Graph<T> : IGraph<T>
     public void PrintBFS(T start)
     {
         var result = BreadthFirstSearch(start);
+
+        foreach (var item in result)
+        {
+            Console.WriteLine($"Ordem de Navegação = {item};");
+        }
+    }
+
+    public void PrintDFS(T start)
+    {
+        var result = DepthFirstSearch(start);
 
         foreach (var item in result)
         {

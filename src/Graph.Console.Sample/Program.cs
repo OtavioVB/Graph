@@ -10,30 +10,34 @@ public sealed class Program
     {
         var graph = new Graph<char>();
 
-        graph.AddVertex('A');
-        graph.AddVertex('B');
-        graph.AddVertex('C');
-        graph.AddVertex('D');
-        graph.AddVertex('E');
-        graph.AddVertex('F');
-        graph.AddBidiretionalEdge('A', 'B');
-        graph.AddBidiretionalEdge('B', 'D');
-        graph.AddBidiretionalEdge('A', 'C');
-        graph.AddBidiretionalEdge('C', 'E');
-        graph.AddBidiretionalEdge('C', 'F');
-        graph.AddBidiretionalEdge('F', 'E');
+        graph.AddBidiretionalEdge('1', '2');
+        graph.AddBidiretionalEdge('2', '5');
+        graph.AddDirectedEdge('2', '3');
+        graph.AddDirectedEdge('3', '4');
+        graph.AddDirectedEdge('4', '5');
+        graph.AddDirectedEdge('4', '1');
 
+        Prompt.WriteLine("\nGraph");
         graph.PrintGraph();
 
-        graph.PrintShortestWayBFS('A', 'E');
+        Prompt.WriteLine("\nBreadth-First Search");
+        graph.PrintBFS('1');
+
+        Prompt.WriteLine("\nDepth-First Search");
+        graph.PrintDFS('1');
+
+        Prompt.WriteLine("\nShortest Way Breadth-First Search");
+        graph.PrintShortestWayBFS('1', '5');
 
         var eccentricity = graph.GetAllVertexEccentricity();
 
+        Prompt.WriteLine("\nEccentricities");
         foreach (var unique in eccentricity)
         {
             Prompt.WriteLine($"{unique.Key} = {unique.Value};");
         }
 
+        Prompt.WriteLine("\nDetails");
         Prompt.WriteLine($"Ratio = {graph.GetRatio()}");
         Prompt.WriteLine($"Diameter = {graph.GetDiameter()}");
 
