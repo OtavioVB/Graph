@@ -8,23 +8,21 @@ public sealed class Program
 {
     static void Main(string[] args)
     {
-        var graph = new Graph<int>();
+        var graph = new Graph<char>();
 
-        graph.AddVertex(1);
-        graph.AddVertex(2);
-        graph.AddVertex(3);
-        graph.AddBidiretionalEdge(1, 3);
-        graph.AddDirectedEdge(1, 2);
+        graph.AddVertex('A');
+        graph.AddVertex('B');
+        graph.AddVertex('C');
+        graph.AddVertex('D');
+        graph.AddVertex('E');
+        graph.AddDirectedEdge('A', 'B');
+        graph.AddDirectedEdge('B', 'D');
+        graph.AddDirectedEdge('A', 'C');
+        graph.AddDirectedEdge('C', 'E');
 
         graph.PrintGraph();
 
-        /*
-         * 1 -> 3 2
-         * 2 ->
-         * 3 -> 1
-         */
-
-        graph.PrintBFS(1);
+        graph.PrintShortestWayBFS('A', 'E');
 
         Prompt.WriteLine();
     }

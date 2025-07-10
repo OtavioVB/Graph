@@ -14,7 +14,6 @@ public class Graph<T> : IGraph<T>
 
     public T[] BreadthFirstSearch(T start)
     {
-        var result = new List<T>();
         var queue = new Queue<T>();
         var visited = new HashSet<T>();
 
@@ -27,7 +26,6 @@ public class Graph<T> : IGraph<T>
         while (queue.Count > 0)
         {
             var current = queue.Dequeue();
-            result.Add(current);
 
             foreach (var neighbor in _adjacencyList[current])
             {
@@ -39,7 +37,62 @@ public class Graph<T> : IGraph<T>
             }
         }
 
-        return result.ToArray();
+        return visited.ToArray();
+    }
+
+    public T[] GetShortestWayBFS(T start, T end)
+    {
+        var queue = new Queue<T>();
+        var visited = new HashSet<T>();
+        var parent = new Dictionary<T, T>();
+
+        if (!_adjacencyList.ContainsKey(start))
+            return [];
+
+        visited.Add(start);
+        queue.Enqueue(start);
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+
+            if (current.Equals(end))
+                break;
+
+            foreach (var neighbor in _adjacencyList[current])
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    parent[neighbor] = current;
+                    visited.Add(neighbor);
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+
+        var way = new List<T>();
+        var node = end;
+
+        while (!node.Equals(start))
+        {
+            way.Add(node);
+            node = parent[node];
+        }
+
+        way.Add(start);
+        way.Reverse();
+
+        return way.ToArray();
+    }
+
+    public void PrintShortestWayBFS(T start, T end)
+    {
+        var result = GetShortestWayBFS(start, end);
+
+        foreach (var item in result)
+        {
+            Console.WriteLine($"Ordem de Navegação = {item};");
+        }
     }
 
     public void PrintBFS(T start)
